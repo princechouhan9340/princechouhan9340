@@ -30,6 +30,11 @@ Create API's to do each of the following:
                     .......
                     ]
 
+
+
+password -> -6dFUa!P$c9vEeM
+Api id -> ae35a7ee8d6a1e7500f2c07b65d851fc
+
 3. Axios POST request assignment
 
             1. Get all the memes at Postman (https://api.imgflip.com/get_memes)
