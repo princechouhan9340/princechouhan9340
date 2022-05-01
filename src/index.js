@@ -2,6 +2,7 @@ const express = require("express")
 const bodyparser = require("body-parser")
 const route = require("./routes/route")
 const mongoose = require("mongoose")
+
 const app = express();
 
 app.use(bodyparser.json())
@@ -14,6 +15,6 @@ mongoose.connect('mongodb+srv://prince_chouhan9340:VmEz2U6wR9QeMWxw@cluster0.7ob
 }).catch(err=>console.log(err))
 
 app.use("/", route)
-
+// www.domianName.com/
 
 app.listen(3000)

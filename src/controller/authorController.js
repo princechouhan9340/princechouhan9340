@@ -1,5 +1,6 @@
 const authorModel = require("../model/authorModel")
 const jwt = require("jsonwebtoken")
+
 const validateEmail = (email) => {
     return String(email)
         .toLowerCase()
@@ -10,6 +11,7 @@ const validateEmail = (email) => {
 const createAuthor = async (req, res) => {
     try {
         const data = req.body
+        // in arrays length property
         //new add -------
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: true, msg: "input empty" })
@@ -22,6 +24,7 @@ const createAuthor = async (req, res) => {
         }
         if(!(data.title== "Mr" || data.title == "Miss" || data.title == "Mrs"))
         return res.status(400).send({ status: false, msg: "Enter a valid title" })
+        // a@b.c
         if (!validateEmail(data.email)) {
             return res.status(400).send({ status: false, msg: "Invaild E-mail id " })
         }

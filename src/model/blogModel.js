@@ -18,12 +18,11 @@ const blogSchema = mongoose.Schema({
     },
     tags: {
         type: [String],
-        lowercase: true
+        lowercase: true // Entertainment entertainment 
     },
     category: {
         type: [String],
         required: true,
-        trim: true
     },
     subcategory: {
         type: [String],
@@ -32,14 +31,12 @@ const blogSchema = mongoose.Schema({
     deletedAt: Date,
     isDeleted: {
         type: Boolean,
-        default: false,
-        trim: true
+        default: false
     },
     publishedAt: Date,
     isPublished: {
         type: Boolean,
-        default: false,
-        trim: true
+        default: false
     }
 }, { timestamps: true })
 

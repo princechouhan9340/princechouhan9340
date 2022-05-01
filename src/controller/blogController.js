@@ -1,6 +1,7 @@
+const mongoose = require('mongoose');
 const blogsModel = require("../model/blogModel")
 const authorModel = require("../model/authorModel")
-var mongoose = require('mongoose');
+
 
 
 const createBlogs = async (req, res) => {
@@ -12,7 +13,7 @@ const createBlogs = async (req, res) => {
         if (data.title == undefined || data.body == undefined || data.authorId == undefined || data.category == undefined) {
             return res.status(400).send({ status: false, msg: "Enter Mandentory Feilds" })
         }
-        if (typeof (data.title) != "string" || typeof (data.body) != "string" || !Array.isArray(data.tags) || !Array.isArray(data.subcategory) || !Array.isArray(data.category) || (typeof(data.isPublished)!="boolean" && typeof(data.isPublished)!="undefined") ) {
+        if (typeof (data.title) != "string" || typeof (data.body) != "string" || (!Array.isArray(data.tags) && typeof(data.tags)!="undefined") || (!Array.isArray(data.subcategory) && typeof(data.subcategory)!="undefined") || !Array.isArray(data.category) || (typeof(data.isPublished)!="boolean" && typeof(data.isPublished)!="undefined") ) {
             return res.status(400).send({ status: false, msg: "invalid input" })
         }
         // removing extra spaces from every array's input
@@ -26,20 +27,21 @@ const createBlogs = async (req, res) => {
                 data[key] = [...arr];
             }
         }
-        if (data.isPublished===true) {
             if (data.isPublished == true) {
                 data.publishedAt = new Date();
             }
-        }
         data.authorId = data.authorId.trim()
         let isValid = mongoose.Types.ObjectId.isValid(data.authorId);
         if (!isValid) { return res.status(400).send({ status: false, msg: "Author Id is Not Valid " }) }
+       
         const get_data = await authorModel.findOne({ _id: data.authorId })
+        
         if (!get_data) {
             return res.status(400).send({ status: false, msg: "Author not found.." })
         }
+
         const result = await blogsModel.create(data)
-        res.status(201).send({ staus: true, msg: result })
+        res.status(200).send({ staus: true, msg: result })
     }
     catch (err) {
         res.status(500).send({ status: false, msg: err.message })
@@ -53,13 +55,15 @@ const getBlogs = async function (req, res) {
             let isValid = mongoose.Types.ObjectId.isValid(authorId);
             if (!isValid) { return res.status(400).send({ status: false, msg: "Author Id is Not Valid" }) }
         }
+             //   find({title:input_title})
         const obj = {
             isDeleted: false,
             isPublished: true
         }
         if (authorId)
             obj.authorId = authorId.trim();
-        const obj2 = {}
+       
+            const obj2 = {}
         if (category) {
             obj2.category = category
         }
@@ -68,10 +72,10 @@ const getBlogs = async function (req, res) {
         }
         if (subcategory)
             obj2.subcategory = subcategory
-
+                // find ({title: input_title })   //  tags: {$all: ['book','coding']}
         for (let key in obj2) {
             if (typeof (obj2[key]) == "string") {
-                obj2[key] = obj2[key].split(",")
+                obj2[key] = obj2[key].split(",") // "book ,coding" => {tags: ['book','coding']}
             }
             for (let i = 0; i < obj2[key].length; i++)
                 obj2[key][i] = obj2[key][i].toLowerCase().trim()
@@ -92,6 +96,7 @@ const getBlogs = async function (req, res) {
 const updateBlogs = async function (req, res) {
     try {
         if (Object.keys(req.body).length == 0) { return res.send({ status: false, msg: "Provide some data" }) }
+
         let { title, body, isPublished, tags, subcategory } = req.body;
         if ((typeof (title) != "string" && typeof (title) != "undefined") || (typeof (body) != "string" && typeof (body) != "undefined") || (typeof (isPublished) != "boolean" && typeof (isPublished) != "undefined") || (!Array.isArray(tags) && typeof (tags) != "undefined") || (!Array.isArray(subcategory) && typeof (subcategory) != "undefined")) {
             return res.status(400).send({ status: false, msg: "invalid input" })
@@ -126,7 +131,7 @@ const updateBlogs = async function (req, res) {
             result.subcategory = result.subcategory.concat(arr)
         }
         result.save()
-        res.status(201).send({ status: true, result })
+        res.status(201).send({ status: true,data: result })
     }
     catch (err) {
         res.status(500).send({ status: false, msg: err.message })
@@ -153,6 +158,7 @@ const deleteBlogs = async (req, res) => {
 
         let keyArr = Object.keys(req.query)
         let somethingBad = false;
+        console.log(req.query)
         // checking any unwanted key coming or not
         for (let i = 0; i < keyArr.length; i++) {
             if (!(keyArr[i] == "category" || keyArr[i] == "tags" || keyArr[i] == "subcategory" || keyArr[i] == "isPublished" || keyArr[i] == "authorId"))
@@ -165,13 +171,16 @@ const deleteBlogs = async (req, res) => {
         //extracting keys from req.query
         let { category, tags, subcategory, isPublished, authorId } = req.query
         // if we're getting authorId in request but not matching with tokenId
-        if (authorId && authorId != req.tokenId)
+
+      //  if (typeof(authorId)!="undefined" && authorId != req.tokenId)
+      if (authorId && authorId != req.tokenId)
             return res.status(403).send({ status: false, msg: "Unauthorised access" })
+
         let obj = {
             authorId : req.tokenId,
             isDeleted:false
         }
-        if(typeof(isPublished)!=undefined)
+        if(typeof(isPublished)!="undefined" && isPublished===false)
             obj.isPublished=isPublished;
         let obj2 = {}
         if (category) {
@@ -192,13 +201,14 @@ const deleteBlogs = async (req, res) => {
             obj2[key] = { $all: obj2[key] }
         }
         let date = new Date()
+        // blogModel.find({email:"sunil@gmail.com",authorId:"123"}) // authorId 456
         const data = await blogsModel.updateMany({ ...obj, ...obj2 }, { $set: { isDeleted: true, deletedAt: date } })
         if (data.matchedCount == 0)
             return res.status(404).send({ status: false, msg: "blog not found" })
         res.status(200).send({ status: true, data: "finally deleted Successfull " + data.matchedCount + " documents" })
     }
     catch (err) {
-        res.send({ msg: err.message })
+        res.status(500).send({ msg: err.message })
     }
 }
 

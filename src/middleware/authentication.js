@@ -6,7 +6,7 @@ const tokenAuth = async function (req, res, next) {
         if (!key) { return res.status(403).send({status:false,msg:"Unauthorised access"}) }
         try {
             const tokendata = jwt.verify(key, "Project 1")
-             req.tokenId = tokendata.id
+             req.tokenId = tokendata.id // req.query  req.tokenId
              next()
         }
         catch (error) {

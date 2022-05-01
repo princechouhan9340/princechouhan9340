@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/authors",authorController.createAuthor)
 
-router.post("/blogs",blogController.createBlogs)
+router.post("/blogs",authentication.tokenAuth,blogController.createBlogs)
 
 router.get("/blogs",authentication.tokenAuth,blogController.getBlogs)
 
