@@ -13,7 +13,11 @@ const createBlogs = async (req, res) => {
         if (data.title == undefined || data.body == undefined || data.authorId == undefined || data.category == undefined) {
             return res.status(400).send({ status: false, msg: "Enter Mandentory Feilds" })
         }
-        if (typeof (data.title) != "string" || typeof (data.body) != "string" || (!Array.isArray(data.tags) && typeof(data.tags)!="undefined") || (!Array.isArray(data.subcategory) && typeof(data.subcategory)!="undefined") || !Array.isArray(data.category) || (typeof(data.isPublished)!="boolean" && typeof(data.isPublished)!="undefined") ) {
+        // if (typeof (data.title) != "string" || typeof (data.body) != "string" || (!Array.isArray(data.tags) && typeof(data.tags)!="undefined") || (!Array.isArray(data.subcategory) && typeof(data.subcategory)!="undefined") || !Array.isArray(data.category) || (typeof(data.isPublished)!="boolean" && typeof(data.isPublished)!="undefined") ) {
+        //     return res.status(400).send({ status: false, msg: "invalid input" })
+        // }
+
+        if (typeof (data.title) != "string" || typeof (data.body) != "string" || (!Array.isArray(data.tags) && typeof(data.tags)!="undefined") || (!Array.isArray(data.subcategory) && typeof(data.subcategory)!="undefined") || typeof(data.category)!="string" || (typeof(data.isPublished)!="boolean" && typeof(data.isPublished)!="undefined") ) {
             return res.status(400).send({ status: false, msg: "invalid input" })
         }
         // removing extra spaces from every array's input
@@ -64,8 +68,12 @@ const getBlogs = async function (req, res) {
             obj.authorId = authorId.trim();
        
             const obj2 = {}
+        // if (category) {
+        //     obj2.category = category
+        // }
+
         if (category) {
-            obj2.category = category
+            obj.category = category
         }
         if (tags) {
             obj2.tags = tags
@@ -183,8 +191,11 @@ const deleteBlogs = async (req, res) => {
         if(typeof(isPublished)!="undefined" && isPublished===false)
             obj.isPublished=isPublished;
         let obj2 = {}
+        // if (category) {
+        //     obj2.category = category
+        // }
         if (category) {
-            obj2.category = category
+            obj.category = category
         }
         if (tags) {
             obj2.tags = tags
