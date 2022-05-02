@@ -21,7 +21,9 @@ const blogSchema = mongoose.Schema({
         lowercase: true // Entertainment entertainment 
     },
     category: {
-        type: [String],
+        type: String,
+        trim: true,
+        lowerCase: true,
         required: true,
     },
     subcategory: {
