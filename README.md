@@ -11,7 +11,7 @@
 
 ### Models
 - User Model
-yaml
+
 { 
   title: {string, mandatory, enum[Mr, Mrs, Miss]},
   name: {string, mandatory},
@@ -29,7 +29,7 @@ yaml
 
 
 - Books Model
-yaml
+
 { 
   title: {string, mandatory, unique},
   excerpt: {string, mandatory}, 
@@ -47,7 +47,7 @@ yaml
 
 
 - Review Model (Books review)
-yaml
+
 {
   bookId: {ObjectId, mandatory, refs to book model},
   reviewedBy: {string, mandatory, default 'Guest', value: reviewer's name},
