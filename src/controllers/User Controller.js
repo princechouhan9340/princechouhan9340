@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken")
 const createUser = async function (req, res) {
     try {
         let data = req.body
+        if(Object.keys(data).length==0){return res.status(400).send({status:false,message:"DATA REQUIRED"})}
         let passwordregex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
 
         let { title, name, phone, email, password, address } = data
@@ -30,7 +31,7 @@ const createUser = async function (req, res) {
             return res.status(400).send({ status: false, message: "PASSWORD CAN NOT BE EMPTY" })
         }
         if(!password.match(passwordregex)){
-            return res.status(400).send({
+            return res.status(400).send({status:false,
                 message: "Password should include atleast one special character, one uppercase, one lowercase, one number and should be mimimum 8 character long",
               });
         
@@ -54,6 +55,7 @@ const createUser = async function (req, res) {
 const loginUser = async function (req,res){
 try{
     let {email, password} = req.body
+    if(Object.keys(req.body).length==0){return res.status(400).send({status:false,message:"EMAIL AND PASSWORD REQUIRED"})}
 
     if(!email){
         return res.status(400).send({ status: false, message: "Email can not be empty" })
