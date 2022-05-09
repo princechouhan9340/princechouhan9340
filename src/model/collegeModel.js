@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const collageschema = mongoose.Schema({
+const collegeschema = new mongoose.Schema({
     name: { 
         type:String,
         unique:true,
@@ -16,7 +16,8 @@ const collageschema = mongoose.Schema({
     },
     logoLink: {
         type:String,
-        default:"https://functionup.s3.ap-south-1.amazonaws.com/colleges/iith.png"    
+        required:true,
+        trim:true   
     }, 
     isDeleted: {
         type:Boolean,
@@ -24,5 +25,5 @@ const collageschema = mongoose.Schema({
     }
 },{timestamps:true})
 
-const collageModel = new mongoose.model('Collage',collageschema)
-module.exports = collageModel
+const collegeModel = new mongoose.model('Collage',collegeschema)
+module.exports = collegeModel

@@ -3,7 +3,9 @@ const mongoose = require('mongoose')
 const internschema = new mongoose.Schema({
     name: {
         type:String,
-        required:true
+        required:true,
+        lowercase:true,
+        trim:true
      },
     email: { 
         type:String,
@@ -18,7 +20,7 @@ const internschema = new mongoose.Schema({
         unique:true,
         trim:true 
     },
-    collageId: {
+    collegeId: {
         type:mongoose.Schema.Types.ObjectId,
         ref: "Collage",
         required:true,
