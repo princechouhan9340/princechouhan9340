@@ -148,7 +148,7 @@ Refer below sample
 ## Response
 
 ### Successful Response structure
-yaml
+
 {
   status: true,
   message: 'Success',
@@ -158,7 +158,7 @@ yaml
 }
 
 ### Error Response structure
-yaml
+
 {
   status: false,
   message: ""
@@ -167,7 +167,7 @@ yaml
 
 ## Collections
 ## users
-yaml
+
 {
   _id: ObjectId("88abc190ef0288abc190ef02"),
   title: "Mr",
@@ -185,7 +185,7 @@ yaml
 }
 
 ### books
-yaml
+
 {
   "_id": ObjectId("88abc190ef0288abc190ef55"),
   "title": "How to win friends and influence people",
@@ -204,7 +204,7 @@ yaml
 
 
 ### reviews
-yaml
+
 {
   "_id": ObjectId("88abc190ef0288abc190ef88"),
   bookId: ObjectId("88abc190ef0288abc190ef55"),
@@ -217,7 +217,7 @@ yaml
 
 ## Response examples
 ### Get books response
-yaml
+
 {
   status: true,
   message: 'Books list',
@@ -245,7 +245,7 @@ yaml
 
 
 ### Book details response
-yaml
+
 {
   status: true,
   message: 'Books list',
@@ -301,7 +301,7 @@ yaml
 
 
 ### Book details response no reviews
-yaml
+
 {
   status: true,
   message: 'Books list',
