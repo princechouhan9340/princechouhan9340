@@ -85,4 +85,48 @@ const createBook = async function (req, res) {
     }
 }
 
-module.exports = { createBook }
+const getBooks = async function (req, res) {
+    try {
+        const { userId, category, subcategory } = req.query
+        // CHECK USER ID VALIDATION------
+        if (userId) {
+            let isValid = mongoose.Types.ObjectId.isValid(userId);
+            if (!isValid) { return res.status(400).send({ status: false, message: " USER-Id is Not Valid" }) }
+        }
+        // TAKE OBJECT OBJ WITH CONDITION ISDELETE = FALSE------
+        const obj = {
+            
+        }
+        if (userId)
+            obj.userId = userId.trim();
+        // TAKE ANOTHER OBJECT -----  
+        //const obj = {}
+        if (category) {
+            obj.category = category
+        }
+        if (subcategory)
+            obj.subcategory = subcategory
+        // MAKE A FOR LOOP FOR SPLITING AND TRIMING GIVEN FILTERS------
+        for (let key in obj) {
+            if (typeof (obj[key]) == "string") {
+                obj[key] = obj[key].split(",")
+            }
+            for (let i = 0; i < obj[key].length; i++)
+                obj[key][i] = obj[key][i].toLowerCase().trim()
+            obj[key] = { $all: obj[key] }
+        }
+        //FIND BOOK WITH THE HELP OF GIVEN FILTERS------
+        const data = await bookModel.find({ ...obj }).select({_id:1, title:1, excerpt:1, userId:1, category:1, releasedAt:1, reviews:1})
+
+        // IF  NO BOOK FOUND WITH GIVEN FILTERS-----
+        if (data.length == 0) {
+            return res.status(404).send({ status: false, message: "Blogs Not found" })
+        }
+        res.status(200).send({ status: true, data: data })
+    }
+    catch (err) {
+        res.status(500).send({ status: true, message: err.message })
+    }
+}
+
+module.exports = { createBook , getBooks }
