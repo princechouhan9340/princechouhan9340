@@ -13,8 +13,7 @@ const createBook = async function (req, res) {
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, message: "EMPTY INPUT" })
         }
-        // const isValidObjectId = (objectId) => { return mongoose.Types.ObjectId.isValid(objectId) }
-
+        
         // ALL VALIDATION IF REQUEST IS EMPTY----
         if (!title) {
             return res.status(400).send({ status: false, message: "TITLE IS REQUIRED" })
@@ -45,6 +44,12 @@ const createBook = async function (req, res) {
         if (!isValidObjectId(userId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID USER ID" });
         }
+       let decodedToken= req.decodedToken
+        console.log(decodedToken)
+        if(decodedToken.userId != userId){
+            return res.status(400).send({status:false,message:'YOU ARE NOT AUTHORISED'})
+        }
+
 
         if (!validator.isValid(ISBN)) {
             return res.status(400).send({ status: false, message: "ISBN IS NOT VALID" })
@@ -120,13 +125,12 @@ const getBooks = async function (req, res) {
             // MAKE A FOR LOOP FOR SPLITING AND TRIMING GIVEN FILTERS------
             for (let key in obj) {
                 if (typeof (obj[key]) == "string") {
-                    // obj[key] = obj[key].split(",")
-                    console.log(obj[key])
+                    obj[key] = obj[key].split(",")
+                   
                 }
                 for (let i = 0; i < obj[key].length; i++)
                     obj[key][i] = obj[key][i].toLowerCase().trim()
                 obj[key] = { $all: obj[key] }
-                console.log(obj[key])
             }
             //FIND BOOK WITH THE HELP OF GIVEN FILTERS------
             const data = await bookModel.find({ ...obj }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
