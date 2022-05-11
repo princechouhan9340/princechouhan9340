@@ -46,7 +46,7 @@ const createBook = async function (req, res) {
         }
 
        let decodedToken= req.decodedToken
-        console.log(decodedToken)
+        
         if(decodedToken.userId != userId){
             return res.status(400).send({status:false,message:'YOU ARE NOT AUTHORISED'})
         }
@@ -162,14 +162,14 @@ const getBooksById = async function(req,res){
 
     // BOOK ID VALIDATION-----
     let isValid = mongoose.Types.ObjectId.isValid(bookId);
-    if (!isValid) { return res.status(400).send({ status: false, message: " BOOK-Id is Not Valid"})}
+    if (!isValid) { return res.status(400).send({ status: false, message: " Id is Not Valid"})}
 
     // FIND BOOKS BY BOOK ID-----
     const result = await bookModel.findOne({_id:bookId})
     
     //IF BOOK NOT FOUND-----
     if(!result){
-        return res.status(400).send({ status: false, message: " BOOK Not found" })
+        return res.status(404).send({ status: false, message: " BOOK Not found" })
     }
     //FIND REVIEWS BY BOOK ID-----
 
@@ -228,7 +228,7 @@ const updateBook = async function (req, res) {
                 res.status(200).send({ status: true, data: check });
             }
             else
-             res.send({message:"CANT UPDATE THESE DETAILS"})
+             res.status(400).send({status:false,message:"CANT UPDATE THESE DETAILS"})
             } else {
                 res.status(404).send({ status: false, msg: "CANT UPDATE , IT IS DELETED" });
             }
