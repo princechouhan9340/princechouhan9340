@@ -225,7 +225,7 @@ const updateBook = async function (req, res) {
                     { new: true }
                 );
                 // UPDATE SUCCESSFULL----
-                res.status(200).send({ status: true, data: check });
+                return res.status(200).send({ status: true, data: check });
             }
             else
              res.status(400).send({status:false,message:"CANT UPDATE THESE DETAILS"})
