@@ -6,7 +6,6 @@ const isValidObjectId = (objectId) => { return mongoose.Types.ObjectId.isValid(o
 const moment=require('moment')
 
 
-
 const createBook = async function (req, res) {
     try {
         const data = req.body
@@ -45,6 +44,7 @@ const createBook = async function (req, res) {
         if (!isValidObjectId(userId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID USER ID" });
         }
+
        let decodedToken= req.decodedToken
         console.log(decodedToken)
         if(decodedToken.userId != userId){
@@ -58,6 +58,7 @@ const createBook = async function (req, res) {
         if (!validator.isValid(category)) {
             return res.status(400).send({ status: false, message: "CATEGORY IS NOT VALID" })
         }
+        // IF SUB CATEGORY IS IN ARRAY -----
         if (typeof (subcategory) == "object") {
             for (let i = 0; i < subcategory.length; i++) {
                 if (!validator.isValid(subcategory[i]))
@@ -81,7 +82,7 @@ const createBook = async function (req, res) {
         if (isUniqueISBN) {
             return res.status(400).send({ status: false, message: "ISBN ALREADY EXISTS" })
         }
-        // CHECK USER-ID IS PRESENT OR NOT IN USER COLLECTION
+        // CHECK USER-ID IS PRESENT OR NOT IN USER COLLECTION-----
         const userid = await UserModel.findOne({ _id: userId })
         if (!userid) {
             return res.status(404).send({ status: false, message: "USER NOT FOUND" })
@@ -97,7 +98,7 @@ const createBook = async function (req, res) {
 const getBooks = async function (req, res) {
     try {
         const { userId, category, subcategory } = req.query
-
+        // CHECK DATA PRESENT OR NOT IN BODY----
         if (Object.keys(req.query).length == 0) {
             let find = await bookModel.find({ isDeleted: false })
             console.log(find)
@@ -171,6 +172,7 @@ const getBooksById = async function(req,res){
         return res.status(400).send({ status: false, message: " BOOK Not found" })
     }
     //FIND REVIEWS BY BOOK ID-----
+
    // const review = await bookModel.find({category: "nk"})
 
     res.status(200).send({status:false,message:"BooksList",data:result})
@@ -182,15 +184,19 @@ const getBooksById = async function(req,res){
 
 const updateBook = async function (req, res) {
     try {
+        // TAKE BOK ID FROM PARAMS----
         let getId = req.params.bookId
         let data = req.body
-        
+
+        // VALIDATION OF BOOK ID----
         if (!isValidObjectId(getId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID ID" });
         }
+        // IF TRY TO UPDATE WITH EMPTY DATA-----
         if (Object.keys(data).length == 0) return res.status(400).send({ status: false, message: "KINDLY ADD SOMETHING TO UPDATE" })
         let { title, excerpt, ISBN, releasedAt } = data
-
+        
+        // FIND BOOK BY BOOK ID----
         let checkId = await bookModel.findById(getId)
         if (checkId) {
             if (checkId.isDeleted === false) {
@@ -205,7 +211,8 @@ const updateBook = async function (req, res) {
                 // if (releasedAt != moment().format('YYYY-MM-DD')) {
                 //     return res.status(400).send({ status: false, message: "KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
                 // }
-            
+
+            // UPDATE GIVEN DATA PRESENT IN BODY-----
              if( title|| excerpt || ISBN || releasedAt ){
                 let check = await bookModel.findByIdAndUpdate(
                     getId,
@@ -217,6 +224,7 @@ const updateBook = async function (req, res) {
                     },
                     { new: true }
                 );
+                // UPDATE SUCCESSFULL----
                 res.status(200).send({ status: true, data: check });
             }
             else
@@ -234,21 +242,26 @@ const updateBook = async function (req, res) {
 }
 const deleteBook = async function (req, res) {
     try {
+        // TAKE BOO ID BY PARAMS----
         let bookId = req.params.bookId
 
+        // VALIDATE BOOK ID ----
         if (!isValidObjectId(bookId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID ID" })
         }
-
+        // FIND BOOK BY BOOK ID----
         let book = await bookModel.findById(bookId)
 
         if (!book) {
             return res.status(404).send({ status: false, message: "BOOK does not found" })
         }
+
+        // ANOTHER CONDTION FOR FINDING BOOK----
         if (book.isDeleted == true) {
             return res.status(400).send({ status: false, message: "BOOK ALREADY DELETED" })
         }
 
+        // DELETE BOOK SUCCESSFULLY-----
         let updateBook = await bookModel.findByIdAndUpdate(bookId, { isDeleted: true, deletedAt: Date.now() }, { new: true })
         res.status(200).send({ status: true, data: updateBook })
 
