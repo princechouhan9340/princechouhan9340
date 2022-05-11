@@ -15,4 +15,6 @@ router.get('/books/:bookId',authentication,bookController.getBooksById)
 
 router.put('/books/:bookId',authorization,bookController.updateBook)
 
+router.delete('/books/:bookId',authorization,bookController.deleteBook)
+
 module.exports=router
