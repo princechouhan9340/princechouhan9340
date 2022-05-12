@@ -1,5 +1,6 @@
 const bookModel = require("../models/BookModel")
 const UserModel = require("../models/UserModel")
+const reviewModel = require('../models/ReviewModel')
 const validator = require("../validator/validator")
 const mongoose = require("mongoose")
 const isValidObjectId = (objectId) => { return mongoose.Types.ObjectId.isValid(objectId) }
@@ -106,7 +107,6 @@ const getBooks = async function (req, res) {
         // CHECK DATA PRESENT OR NOT IN BODY----
         if (Object.keys(req.query).length == 0) {
             let find = await bookModel.find({ isDeleted: false })
-            console.log(find)
             res.status(200).send({ status: true, message: "BooksList", data: find })
 
         }
@@ -160,6 +160,7 @@ const getBooksById = async function (req, res) {
     try {
         // TAKE BOOK ID FROM PARAMS----
         let bookId = req.params.bookId.trim()
+        
         //IF BOOK ID IS NOT INPUT----
         if (!bookId) {
             return res.status(400).send({ status: false, message: " BOOK ID REQUIRED" })
@@ -167,7 +168,9 @@ const getBooksById = async function (req, res) {
 
         // BOOK ID VALIDATION-----
         let isValid = mongoose.Types.ObjectId.isValid(bookId);
-        if (!isValid) { return res.status(400).send({ status: false, message: " Id is Not Valid" }) }
+        if (!isValid) { 
+            return res.status(400).send({ status: false, message: "Id is Not Valid" })
+         }
 
         // FIND BOOKS BY BOOK ID-----
         const result = await bookModel.findOne({ _id: bookId })
@@ -177,10 +180,9 @@ const getBooksById = async function (req, res) {
             return res.status(404).send({ status: false, message: " BOOK Not found" })
         }
         //FIND REVIEWS BY BOOK ID-----
+        let getreview = await reviewModel.find({ bookId: bookId })
 
-        // const review = await bookModel.find({category: "nk"})
-
-        res.status(200).send({ status: false, message: "BooksList", data: result })
+        res.status(200).send({ status: false, message: "BooksList", data: { ...result.toObject(), reviewsData: getreview } })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })
