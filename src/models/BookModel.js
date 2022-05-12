@@ -12,7 +12,7 @@ const bookSchema = new mongoose.Schema({
     reviews: { type: Number, default: 0, comment: { type: String } },
     deletedAt: { type: Date, default: null },
     isDeleted: { type: Boolean, default: false },
-    releasedAt: { type: String,required:true,default:moment().format("YYYY-MM-DD")}
+    releasedAt: { type: String,required:true}
 },{ timestamps: true })
 
 module.exports =  mongoose.model("Book",bookSchema)
