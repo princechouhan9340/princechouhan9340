@@ -46,14 +46,15 @@ const createBook = async function (req, res) {
         if (!isValidObjectId(userId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID USER ID" });
         }
-        
-       let decodedToken= req.decodedToken
-        
-       if(decodedToken.userId != userId){
-           return res.status(400).send({status:false,message:'YOU ARE NOT AUTHORISED'})
-       }
+
+
+        let decodedToken = req.decodedToken
+
+        if (decodedToken.userId != userId) {
+            return res.status(400).send({ status: false, message: 'YOU ARE NOT AUTHORISED' })
+        }
         if (!releasedAt.match(dateregex)) {
-            return res.status(400).send({ status: false, message: "KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
+            return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
         }
 
         if (!validator.isValid(ISBN)) {
@@ -212,9 +213,9 @@ const updateBook = async function (req, res) {
                 if (duplicateISBN) {
                     return res.status(400).send({ status: false, message: "ISBN IS ALREADY PRESENT" })
                 }
-                // if (releasedAt != moment().format('YYYY-MM-DD')) {
-                //     return res.status(400).send({ status: false, message: "KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
-                // }
+                if (!releasedAt.match(dateregex)) {
+                    return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
+                }
 
                 // UPDATE GIVEN DATA PRESENT IN BODY-----
                 if (title || excerpt || ISBN || releasedAt) {
