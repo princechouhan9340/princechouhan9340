@@ -322,3 +322,7 @@ Refer below sample
   }
 }
 This is change
+
+const result = await bookModel.create(data)
+        let result1=await bookModel.findOne({title:title}).select({title:1, excerpt:1, userId:1, ISBN:1, category:1, subcategory:1, releasedAt:1})
+        res.status(201).send({ status: true, message: "Success", data: result1 })

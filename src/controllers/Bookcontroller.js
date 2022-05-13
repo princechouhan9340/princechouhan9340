@@ -99,7 +99,8 @@ const createBook = async function (req, res) {
             return res.status(404).send({ status: false, message: "USER NOT FOUND" })
         }
         const result = await bookModel.create(data)
-        res.status(201).send({ status: true, message: "Success", data: result })
+        let result1=await bookModel.findOne({title:title}).select({title:1, excerpt:1, userId:1, ISBN:1, category:1, subcategory:1, releasedAt:1})
+        res.status(201).send({ status: true, message: "Success", data: result1 })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })
