@@ -4,10 +4,14 @@ const jwt = require("jsonwebtoken")
 
 const createUser = async function (req, res) {
     try {
+        // TAKE DATA FROM REQ.BODY-----
         let data = req.body
         let passwordregex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,15}$/
 
+        // DESTRUCTURING DATA----
         let { title, name, phone, email, password, address } = data
+
+        // CHECK REQ.BODY IS EMPTY OR NOT----
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, message: "EMPTY INPUT" })
         }
@@ -82,15 +86,19 @@ const createUser = async function (req, res) {
 
 const loginUser = async function (req, res) {
     try {
+        // DESTRUCTURING DATA TAKE BY REQ.BODY-----
         let { email, password } = req.body
+
         // CHECK THE INPUT OF EMAIL-----
         if (!email) {
             return res.status(400).send({ status: false, message: "Email can not be empty" })
         }
+
         // CHECK THE INPUT OF PASSWORD----
         if (!password) {
             return res.status(400).send({ status: false, message: "PASSWORD CAN NOT BE EMPTY" })
         }
+
         // FIND DOCUMNET WITH THE HELP OF EMAIL-----
         const user = await userModel.findOne({ email: email })
         if (!user) {
@@ -99,6 +107,7 @@ const loginUser = async function (req, res) {
         if (user.password != password) {
             return res.status(400).send({ status: false, message: "Password is incorrect" })
         }
+        
         // IF DOCUMENT FOUND THEN CREATE JWT TOKEN-----
         const token = jwt.sign({ userId: user._id.toString() }, "This is project 3", { expiresIn: "2h" })
 

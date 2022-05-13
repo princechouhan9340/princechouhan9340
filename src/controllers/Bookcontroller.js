@@ -9,8 +9,13 @@ let dateregex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
 
 const createBook = async function (req, res) {
     try {
+        // FETCH DATA FROM RE.BODY----
         const data = req.body
+
+        // DESTRUCTURING DATA-----
         let { title, excerpt, userId, ISBN, category, subcategory, releasedAt } = data
+
+        //CHECK DATANPRESENT OR NOT IN REQ.BODY-----
         if (Object.keys(data).length == 0) {
             return res.status(400).send({ status: false, message: "EMPTY INPUT" })
         }
@@ -48,7 +53,7 @@ const createBook = async function (req, res) {
             return res.status(400).send({ status: false, message: "NOT A VALID USER ID" });
         }
 
-
+        //GIVE AUTHORIZATION TO USER TO CREATE BOOK----
         let decodedToken = req.decodedToken
 
         if (decodedToken.userId != userId) {
@@ -104,7 +109,7 @@ const createBook = async function (req, res) {
 const getBooks = async function (req, res) {
     try {
         const { userId, category, subcategory } = req.query
-        // CHECK DATA PRESENT OR NOT IN BODY----
+        // CHECK DATA PRESENT OR NOT IN REQ.BODY----
         if (Object.keys(req.query).length == 0) {
             let find = await bookModel.find({ isDeleted: false })
             res.status(200).send({ status: true, message: "BooksList", data: find })
@@ -158,7 +163,7 @@ const getBooks = async function (req, res) {
 }
 const getBooksById = async function (req, res) {
     try {
-        // TAKE BOOK ID FROM PARAMS----
+        // FETCH BOOK ID FROM PARAMS----
         let bookId = req.params.bookId.trim()
         
         //IF BOOK ID IS NOT INPUT----
@@ -191,7 +196,7 @@ const getBooksById = async function (req, res) {
 
 const updateBook = async function (req, res) {
     try {
-        // TAKE BOK ID FROM PARAMS----
+        //FETCH BOOK ID FROM PARAMS----
         let getId = req.params.bookId
         let data = req.body
 
@@ -207,14 +212,19 @@ const updateBook = async function (req, res) {
         let checkId = await bookModel.findById(getId)
         if (checkId) {
             if (checkId.isDeleted === false) {
+
+                //CHECK NEW TITLE IS ALRADY PRESENT OR NOT IN DB----
                 let duplicateTitle = await bookModel.findOne({ title: title })
                 if (duplicateTitle) {
                     return res.status(400).send({ status: false, message: "TITLE IS ALREADY PRESENT" })
                 }
+
+                //CHECK NEW ISBN IS ALRADY PRESENT OR NOT IN DB----
                 let duplicateISBN = await bookModel.findOne({ ISBN: ISBN })
                 if (duplicateISBN) {
                     return res.status(400).send({ status: false, message: "ISBN IS ALREADY PRESENT" })
                 }
+                // VALIDATION FOR DATE----
                 if (!releasedAt.match(dateregex)) {
                     return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
                 }
@@ -249,7 +259,7 @@ const updateBook = async function (req, res) {
 }
 const deleteBook = async function (req, res) {
     try {
-        // TAKE BOO ID BY PARAMS----
+        //FETCH BOOK ID PRESENT IN PARAMS----
         let bookId = req.params.bookId
 
         // VALIDATE BOOK ID ----
@@ -276,4 +286,5 @@ const deleteBook = async function (req, res) {
         res.status(500).send({ status: false, message: err.message })
     }
 }
+//MAKE MODULE PUBLIC AND EXPORT FROM HERE----
 module.exports = { createBook, getBooks, updateBook, getBooksById, deleteBook }
