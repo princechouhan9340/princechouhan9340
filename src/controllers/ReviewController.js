@@ -84,7 +84,7 @@ const updateReview = async (req, res) => {
         }
 
         // FIND BOOK DOCUMENT BY BOOK ID AND BOOK WAS NOT DELETED----
-        let isBookExist = await BookModel.findOne({ _id: bookId})
+        let isBookExist = await BookModel.findOne({ _id: bookId })
 
         if (!isBookExist) {
             return res.status(404).send({ status: false, message: "NO BOOK FOUND " })
@@ -94,7 +94,7 @@ const updateReview = async (req, res) => {
         }
 
         // FIND REVIEW DOCUMENT BY REVIEW-ID, REVIEW WAS NOT DELETED-----
-        let isReviewExist = await ReviewModel.findOne({ _id: reviewId})
+        let isReviewExist = await ReviewModel.findOne({ _id: reviewId })
         if (!isReviewExist) {
             return res.status(404).send({ status: false, message: "NO REVIEW FOUND" })
         }
@@ -111,16 +111,17 @@ const updateReview = async (req, res) => {
 
         // UPDATE THE GIVEN DATA IN THE REVIEW DOCUMENT----
         else if (reviewedBy || rating || review) {
+            if (rating < 1 || rating > 5) {
+                return res.status(401).send({ status: false, message: "INVALID VALUE , RATING SHOULD LIE BETWEEN 1 AND 5" })
+            }
+
 
             //UPDATE REVIEW DOCUMENT WITH GIVEN DATA-----
             let updatedReview = await ReviewModel.findOneAndUpdate({ _id: reviewId }, { $set: { reviewedBy: reviewedBy, rating: rating, review: review } }, { new: true })
 
-            // FIND REVIEW BY BOOK ID FOR UPDATE COUNT OF REVIEWS IN BOOK DOCUMENT----
-            let Reviews = await ReviewModel.find({ bookId: bookId, isDeleted: false })
-            let count = Reviews.length
-
+           
             // UPDATE REVIEWS COUNT IN BOOK DOCUMENT----
-            let updatedBook = await BookModel.findOneAndUpdate({ _id: bookId, isDeleted: false }, { $set: { reviews: count } }, { new: true })
+            let updatedBook = await BookModel.findOne({ _id: bookId, isDeleted: false })
             return res.status(200).send({ status: true, message: "UPDATES SUCCESSFULLY", data: { ...updatedBook.toObject(), reviewsData: updatedReview } })
         }
         else {
@@ -138,7 +139,7 @@ const deleteReview = async (req, res) => {
         // FETCH BOOK AND REVIEW ID FROM PARAMS-----
         let bookId = req.params.bookId
         let reviewId = req.params.reviewId
-        
+
         // VALIDATE THE BOTH OBJECT-ID'S-----
         if (!mongoose.Types.ObjectId.isValid(bookId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID ID,BOOKS" })
@@ -146,6 +147,15 @@ const deleteReview = async (req, res) => {
 
         if (!mongoose.Types.ObjectId.isValid(reviewId)) {
             return res.status(400).send({ status: false, message: "NOT A VALID ID" })
+        }
+        // FIND BOOK DOCUMENT BY BOO ID AND BOOK NOT DELETED----
+        let book = await BookModel.findOne({ _id: bookId })
+
+        if (!book) {
+            return res.status(404).send({ status: false, message: "NO BOOK FOUND " })
+        }
+        if (book.isDeleted == true) {
+            return res.status(404).send({ status: false, message: "THE BOOK IS DELETED" })
         }
 
         // FIND REVIEW DOCUMENT BY REVIEW ID AND REVIEW WAS NOT DELETED-----
@@ -158,16 +168,6 @@ const deleteReview = async (req, res) => {
             return res.status(404).send({ status: false, message: "REVIEW ALREADY DELETED" })
         }
 
-
-        // FIND BOOK DOCUMENT BY BOO ID AND BOOK NOT DELETED----
-        let book = await BookModel.findOne({ _id: bookId})
-
-        if (!book) {
-            return res.status(404).send({ status: false, message: "NO BOOK FOUND " })
-        }
-        if (book.isDeleted == true) {
-            return res.status(404).send({ status: false, message: "THE BOOK IS DELETED" })
-        }
 
         // MATCH BOOK-ID WITH BOOK-ID PRESENT IN REVIEWS----
         if (review.bookId != bookId) {
