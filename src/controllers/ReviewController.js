@@ -56,7 +56,7 @@ const createReview = async (req, res) => {
         // UPDATE REVIEW COUNT AFTER EVERY NEW REVIEW-----
         let updatedBook = await BookModel.findOneAndUpdate({ _id: bookId, isDeleted: false }, { $set: { reviews: count } }, { new: true })
 
-        return res.status(200).send({ status: true, message: "SUCCESS", data: { ...updatedBook.toObject(), reviewsData: createdReview } })
+        return res.status(201).send({ status: true, message: "SUCCESS", data: { ...updatedBook.toObject(), reviewsData: createdReview } })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })

@@ -113,8 +113,8 @@ const getBooks = async function (req, res) {
         const { userId, category, subcategory } = req.query
         // CHECK DATA PRESENT OR NOT IN REQ.BODY----
         if (Object.keys(req.query).length == 0) {
-            let find = await bookModel.find({ isDeleted: false })
-            res.status(200).send({ status: true, message: "BooksList", data: find })
+            let find = await bookModel.find({ isDeleted: false }).sort({title:1})
+             res.status(200).send({ status: true, message: "BooksList", data: find })
 
         }
         // CHECK USER ID VALIDATION------
@@ -147,7 +147,7 @@ const getBooks = async function (req, res) {
                 obj2[key] = { $all: obj2[key] }
             }
             //FIND BOOK WITH THE HELP OF GIVEN FILTERS------
-            const data = await bookModel.find({ ...obj2, ...obj }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 })
+            const data = await bookModel.find({ ...obj2, ...obj }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({title:1})
 
             // IF  NO BOOK FOUND WITH GIVEN FILTERS-----
             if (data.length == 0) {
@@ -180,7 +180,7 @@ const getBooksById = async function (req, res) {
          }
 
         // FIND BOOKS BY BOOK ID-----
-        const result = await bookModel.findOne({ _id: bookId })
+        const result = await bookModel.findOne({ _id: bookId,isDeleted:false })
 
         //IF BOOK NOT FOUND-----
         if (!result) {
