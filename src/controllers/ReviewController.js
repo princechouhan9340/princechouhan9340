@@ -35,7 +35,7 @@ const createReview = async (req, res) => {
             return res.status(400).send({ status: false, message: "RATING CANT BE EMPTY" })
         }
         if (rating < 1 || rating > 5) {
-            return res.status(401).send({ status: false, message: "INVALID VALUE , RATING SHOULD LIE BETWEEN 1 AND 5" })
+            return res.status(400).send({ status: false, message: "INVALID VALUE , RATING SHOULD LIE BETWEEN 1 AND 5" })
         }
 
         // TAKE ALL REQU.BODY DATA IN SINGLE VARIABLE-----
@@ -112,7 +112,7 @@ const updateReview = async (req, res) => {
         // UPDATE THE GIVEN DATA IN THE REVIEW DOCUMENT----
         else if (reviewedBy || rating || review) {
             if (rating < 1 || rating > 5) {
-                return res.status(401).send({ status: false, message: "INVALID VALUE , RATING SHOULD LIE BETWEEN 1 AND 5" })
+                return res.status(400).send({ status: false, message: "INVALID VALUE , RATING SHOULD LIE BETWEEN 1 AND 5" })
             }
 
 

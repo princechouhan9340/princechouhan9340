@@ -49,7 +49,7 @@ const authorization=async (req, res, next)=>{
     // MATCH THE USER-ID PRESENT IN TOKEN AND USER-ID PRESENT IN BOOK-ID-----
     if(decodedToken.userId != Book.userId){
        
-       return res.status(401).send({status:false, message:"User Not authorized!" })
+       return res.status(403).send({status:false, message:"User Not authorized!" })
     }
     next()
 }catch(err){

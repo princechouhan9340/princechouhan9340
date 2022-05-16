@@ -5,6 +5,7 @@ const validator = require("../validator/validator")
 const mongoose = require("mongoose")
 const isValidObjectId = (objectId) => { return mongoose.Types.ObjectId.isValid(objectId) }
 const moment = require('moment')
+const ReviewModel = require("../models/ReviewModel")
 let dateregex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
 
 const createBook = async function (req, res) {
@@ -57,7 +58,7 @@ const createBook = async function (req, res) {
         let decodedToken = req.decodedToken
 
         if (decodedToken.userId != userId) {
-            return res.status(400).send({ status: false, message: 'YOU ARE NOT AUTHORISED' })
+            return res.status(403).send({ status: false, message: 'YOU ARE NOT AUTHORISED' })
         }
         if (!releasedAt.match(dateregex)) {
             return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
@@ -245,15 +246,15 @@ const updateBook = async function (req, res) {
                         { new: true }
                     );
                     // UPDATE SUCCESSFULL----
-                    return res.status(200).send({ status: true,message:"Success", data: check });
+                     res.status(200).send({ status: true,message:"Success", data: check });
                 }
                 else
-                    res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
+                   res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
             } else {
-                res.status(404).send({ status: false, msg: "CANT UPDATE , IT IS DELETED" });
+                 res.status(404).send({ status: false, msg: "CANT UPDATE , NOT FOUND" });
             }
         } else {
-            res.status(404).send({ status: false, message: "PLEASE ENTER VALID BOOK ID" });
+            res.status(404).send({ status: false, message: "NO BOOK FOUND" });
         }
 
     } catch (err) {
@@ -278,11 +279,12 @@ const deleteBook = async function (req, res) {
 
         // ANOTHER CONDTION FOR FINDING BOOK----
         if (book.isDeleted == true) {
-            return res.status(400).send({ status: false, message: "BOOK ALREADY DELETED" })
+            return res.status(404).send({ status: false, message: "BOOK ALREADY DELETED" })
         }
 
         // DELETE BOOK SUCCESSFULLY-----
         let updateBook = await bookModel.findByIdAndUpdate(bookId, { isDeleted: true, deletedAt: Date.now() }, { new: true })
+        
         res.status(200).send({ status: true,message:"Success", data: updateBook })
 
     } catch (err) {
