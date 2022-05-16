@@ -56,7 +56,7 @@ const createReview = async (req, res) => {
         // UPDATE REVIEW COUNT AFTER EVERY NEW REVIEW-----
         let updatedBook = await BookModel.findOneAndUpdate({ _id: bookId, isDeleted: false }, { $set: { reviews: count } }, { new: true })
 
-        return res.status(200).send({ status: true, message: "Books List!", data: { ...updatedBook.toObject(), reviewsData: createdReview } })
+        return res.status(200).send({ status: true, message: "SUCCESS", data: { ...updatedBook.toObject(), reviewsData: createdReview } })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })
@@ -122,10 +122,10 @@ const updateReview = async (req, res) => {
            
             // UPDATE REVIEWS COUNT IN BOOK DOCUMENT----
             let updatedBook = await BookModel.findOne({ _id: bookId, isDeleted: false })
-            return res.status(200).send({ status: true, message: "UPDATES SUCCESSFULLY", data: { ...updatedBook.toObject(), reviewsData: updatedReview } })
+            return res.status(200).send({ status: true, message: "UPDATED SUCCESSFULLY", data: { ...updatedBook.toObject(), reviewsData: updatedReview } })
         }
         else {
-            res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
+           return res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
         }
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })
@@ -171,11 +171,11 @@ const deleteReview = async (req, res) => {
 
         // MATCH BOOK-ID WITH BOOK-ID PRESENT IN REVIEWS----
         if (review.bookId != bookId) {
-            res.status(400).send({ status: false, message: `THE REVIEW WITH ${reviewId} ID IS NOT THE REVIEW OF BOOK WITH ${bookId} ID` })
+            return res.status(400).send({ status: false, message: `THE REVIEW WITH ${reviewId} ID IS NOT THE REVIEW OF BOOK WITH ${bookId} ID` })
         }
 
         // DELETE REVIEW FROM REVIEW COLLECTION----- 
-        let deletedReview = await ReviewModel.findOneAndUpdate({ _id: reviewId, isDeleted: false }, { isDeleted: true, deletedAt: Date() })
+        let deletedReview = await ReviewModel.findOneAndUpdate({ _id: reviewId, isDeleted: false }, { isDeleted: true })
 
         // UPDATE REVIEWS COUNT IN BOOK DOCUMENT----
         if (deletedReview) {

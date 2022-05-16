@@ -102,7 +102,7 @@ const loginUser = async function (req, res) {
         // FIND DOCUMNET WITH THE HELP OF EMAIL-----
         const user = await userModel.findOne({ email: email })
         if (!user) {
-            return res.status(400).send({ status: false, message: "User not found" })
+            return res.status(404).send({ status: false, message: "User not found" })
         }
         if (user.password != password) {
             return res.status(400).send({ status: false, message: "Password is incorrect" })
@@ -114,7 +114,7 @@ const loginUser = async function (req, res) {
         // SET TOKEN IN RESPONSE HEADER----
         res.setHeader("x-auth-token", token);
 
-        res.status(200).send({ status: true, message: "you are Logged in!", token: token })
+        res.status(200).send({ status: true, message: "YOU ARE SUCCESSFULLY LOGGED IN", token: token })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })

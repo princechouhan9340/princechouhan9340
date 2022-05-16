@@ -150,7 +150,7 @@ const getBooks = async function (req, res) {
 
             // IF  NO BOOK FOUND WITH GIVEN FILTERS-----
             if (data.length == 0) {
-                return res.status(404).send({ status: false, message: "Blogs Not found" })
+                return res.status(404).send({ status: false, message: "Books Not found" })
             }
             res.status(200).send({ status: true, message: "BooksList", data: data })
         }
@@ -226,9 +226,11 @@ const updateBook = async function (req, res) {
                     return res.status(400).send({ status: false, message: "ISBN IS ALREADY PRESENT" })
                 }
                 // VALIDATION FOR DATE----
+                if(releasedAt){
                 if (!releasedAt.match(dateregex)) {
                     return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
                 }
+            }
 
                 // UPDATE GIVEN DATA PRESENT IN BODY-----
                 if (title || excerpt || ISBN || releasedAt) {
@@ -243,7 +245,7 @@ const updateBook = async function (req, res) {
                         { new: true }
                     );
                     // UPDATE SUCCESSFULL----
-                    return res.status(200).send({ status: true, data: check });
+                    return res.status(200).send({ status: true,message:"Success", data: check });
                 }
                 else
                     res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
@@ -251,7 +253,7 @@ const updateBook = async function (req, res) {
                 res.status(404).send({ status: false, msg: "CANT UPDATE , IT IS DELETED" });
             }
         } else {
-            res.status(404).send({ status: false, message: "Please enter valid Book id" });
+            res.status(404).send({ status: false, message: "PLEASE ENTER VALID BOOK ID" });
         }
 
     } catch (err) {
@@ -271,7 +273,7 @@ const deleteBook = async function (req, res) {
         let book = await bookModel.findById(bookId)
 
         if (!book) {
-            return res.status(404).send({ status: false, message: "BOOK does not found" })
+            return res.status(404).send({ status: false, message: "BOOK DOES NOT FOUND" })
         }
 
         // ANOTHER CONDTION FOR FINDING BOOK----
@@ -281,7 +283,7 @@ const deleteBook = async function (req, res) {
 
         // DELETE BOOK SUCCESSFULLY-----
         let updateBook = await bookModel.findByIdAndUpdate(bookId, { isDeleted: true, deletedAt: Date.now() }, { new: true })
-        res.status(200).send({ status: true, data: updateBook })
+        res.status(200).send({ status: true,message:"Success", data: updateBook })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })
