@@ -9,7 +9,7 @@ const bodyParser = require('body-parser')
 
 // IMPORT ROUTE MODULE------
 const route = require('./routes/route');
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true }));
@@ -28,5 +28,5 @@ app.use('/',route)
 
 // LISTEN FOR INCOMING REQUESTS-----
 app.listen(process.env.PORT || 3000, function (){
-    console.log('Express app rinning on port' + (process.env.PORT || 3000))
+    console.log('Express app running on port' + (process.env.PORT || 3000))
 })

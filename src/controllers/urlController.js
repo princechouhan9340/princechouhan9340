@@ -11,13 +11,13 @@ const shortUrl = async function (req, res) {
         const { longUrl } = req.body
 
         // CHECK VALIDATION OF GIVEN LONG URL-----
-        if(!validUrl.isUri(longUrl)){
-            return res.status(401).send({ status: false, message: "Invalid Long URL" })
+        if (!validUrl.isUri(longUrl)) {
+            return res.status(400).send({ status: false, message: "Invalid Long URL" })
         }
 
         // CHECK VALIDATION OF GIVEN BASE URL-----
         if (!validUrl.isUri(baseUrl)) {
-            return res.status(401).send({ status: false, message: "Invalid Base URL" })
+            return res.status(400).send({ status: false, message: "Invalid Base URL" })
         }
 
         // GENERATE URLCODE------
@@ -49,5 +49,27 @@ const shortUrl = async function (req, res) {
         return res.status(500).send({ status: false, Error: err.message })
     }
 }
+
+// REDIRECTING TO THE LONG URL----
+const redirectUrl = async function (req, res) {
+    try {
+        let shortId = req.params.urlCode
+
+        // FINDING IN DATABASE----
+        let originalUrlDetails = await urlModel.findOne({ urlCode: shortId })
+        console.log(originalUrlDetails)
+
+        if (originalUrlDetails) {
+            return res.status(302).redirect(originalUrlDetails.longUrl)
+        } else {
+            return res.status(404).send({status: false, msg: "No URL Found"})
+        }
+    }
+    catch (err) {
+        return res.status(500).send({ status: false, Error: err.message })
+    }
+}
+
 // EXPORT MODULE AND MAKE IT PUBLIC-----
 module.exports.shortUrl = shortUrl
+module.exports.redirectUrl = redirectUrl
