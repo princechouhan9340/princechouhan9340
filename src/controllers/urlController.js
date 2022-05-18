@@ -32,6 +32,11 @@ const shortUrl = async function (req, res) {
         // DESTRUCTURING DATA FETCH BY REQ.BODY----
         const { longUrl } = req.body
 
+        //CHECK REQ.BODY IS EMPTY OR NOT----
+        if(Object.keys(req.body).length == 0){
+            return res.status(400).send({status:false, message:"please enter lomg url in req.body"})
+        }
+
         // CHECK VALIDATION OF GIVEN LONG URL-----
         if (!validUrl.isUri(longUrl)) {
             return res.status(400).send({ status: false, message: "Invalid Long URL" })
