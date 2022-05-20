@@ -8,7 +8,7 @@ const { promisify } = require("util");
 // THIS IS BASE URL-----
 const baseUrl = 'http:localhost:3000'
 
-//Connect to redis
+//CONNECT TO REDIS----
 const redisClient = redis.createClient(
     13190,
     "redis-13190.c301.ap-south-1-1.ec2.cloud.redislabs.com",
@@ -22,7 +22,7 @@ redisClient.on("connect", async function () {
     console.log("Connected to Redis..");
 });
 
-//Connection setup for redis
+//CONNECTION SETUP FOR REDIS------
 
 const SET_ASYNC = promisify(redisClient.SET).bind(redisClient);
 const GET_ASYNC = promisify(redisClient.GET).bind(redisClient);
@@ -122,7 +122,7 @@ const redirectUrl = async function (req, res) {
         console.log(cahcedProfileData)
         if (cahcedProfileData) {
             //FOR STATUS CODE 32 PLEASE DISABLE (Automatically follow redirects) IN POSTMAN SETTING BELOW HTTP REQUEST-----
-            res.redirect(cahcedProfileData.longUrl)
+            res.status(302).redirect(cahcedProfileData.longUrl)
         } 
         // IF DOCUMENT NOT FOUND IN CACHE THEN FIND IN DB AND SET INTO CACHE MEMORY----
         else {
@@ -132,7 +132,7 @@ const redirectUrl = async function (req, res) {
             }
             // SET IN THE CACHE MEMORY-----
             await SET_ASYNC(`${req.params.urlCode}`, JSON.stringify(longUrl))
-            res.redirect(longUrl.longUrl);
+            res.status(302).redirect(longUrl.longUrl);
         }
 
     }
