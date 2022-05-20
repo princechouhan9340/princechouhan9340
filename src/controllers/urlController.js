@@ -50,7 +50,7 @@ const shortUrl = async function (req, res) {
         // GENERATE URLCODE------
         const urlCode = shortid.generate()
         // const urlCode = "428d08"
-        console.log(urlCode)
+        //console.log(urlCode)
 
         // FIND DOCUMENT CONTAINING SAME URLCODE PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE-----
         let cahcedUrlCodeData = await GET_ASYNC(`${urlCode}`)
@@ -81,7 +81,7 @@ const shortUrl = async function (req, res) {
         // CREATE SHORT URL----
         const shortUrl = baseUrl + '/' + urlCode
         // const shortUrl ="http:localhost:3000/bd1ba0"
-        console.log(shortUrl)
+        //console.log(shortUrl)
 
         // FIND DOCUMENT HAVING SAME SHORTURL PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE-----
         let cahcedShortUrlData = await GET_ASYNC(`${shortUrl}`)
@@ -104,6 +104,9 @@ const shortUrl = async function (req, res) {
         // CREATE DOCUMENT IN DB------
         let createdata = await urlModel.create(createUrl)
         res.status(201).send({ status: true, data: createdata })
+        let cache = await SET_ASYNC(`${urlCode}`, JSON.stringify(createdata))
+        console.log(cache," data set in cache")
+        
     }
     catch (err) {
         return res.status(500).send({ status: false, Error: err.message })
@@ -119,7 +122,7 @@ const redirectUrl = async function (req, res) {
         // FINDING IN CACHE MOMORY----
         let cahcedProfileData = await GET_ASYNC(`${req.params.urlCode}`)
         cahcedProfileData = JSON.parse(cahcedProfileData)
-        console.log(cahcedProfileData)
+        console.log(cahcedProfileData," data from cache")
         if (cahcedProfileData) {
             //FOR STATUS CODE 32 PLEASE DISABLE (Automatically follow redirects) IN POSTMAN SETTING BELOW HTTP REQUEST-----
             res.status(302).redirect(cahcedProfileData.longUrl)
