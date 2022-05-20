@@ -49,6 +49,8 @@ const shortUrl = async function (req, res) {
 
         // GENERATE URLCODE------
         const urlCode = shortid.generate()
+
+        // IF YOU WANT TO CHECK UNIQUE PLSESE UNCOMMENT IT------
         // const urlCode = "428d08"
         //console.log(urlCode)
 
@@ -58,7 +60,7 @@ const shortUrl = async function (req, res) {
             return res.status(400).send({ status: false, message: "UrlCode alrady present in CACHE" })
         } else {
             const findUrlCode = await urlModel.findOne({ urlCode: urlCode })
-            console.log(findUrlCode)
+            //console.log(findUrlCode)
             await SET_ASYNC(`${urlCode}`, JSON.stringify(findUrlCode))
             if (findUrlCode) {
                 console.log(findUrlCode)
@@ -68,18 +70,21 @@ const shortUrl = async function (req, res) {
 
         // FIND LONG URL ALRADY PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE----
         let cahcedLongUrlData = await GET_ASYNC(`${longUrl}`)
+        // 
         if (cahcedLongUrlData) {
-            return res.status(400).send({ status: false, message: "Url alrady shorted in CACHE" })
+            return res.status(200).send({ status: true, message:"url alrady shorted",data:JSON.parse(cahcedLongUrlData) })
         } else {
             let url = await urlModel.findOne({ longUrl })
-            await SET_ASYNC(`${longUrl}`, JSON.stringify(url))
             if (url) {
-                return res.status(400).send({ status: false, message: "URL alrady shorted in db" })
+                await SET_ASYNC(`${longUrl}`, JSON.stringify(url))
+                return res.status(200).send({ status: true, message:"alrady shorted " , data: url })
             }
         }
 
         // CREATE SHORT URL----
         const shortUrl = baseUrl + '/' + urlCode
+
+        // IF YOU WANT TO CHECK UNIQUE PLSESE UNCOMMENT IT------
         // const shortUrl ="http:localhost:3000/bd1ba0"
         //console.log(shortUrl)
 
