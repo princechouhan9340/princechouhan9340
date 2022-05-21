@@ -47,6 +47,17 @@ const shortUrl = async function (req, res) {
             return res.status(400).send({ status: false, message: "Invalid Base URL" })
         }
 
+        // FIND LONG URL ALRADY PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE----
+        let cahcedLongUrlData = await GET_ASYNC(`${longUrl}`)
+        if (cahcedLongUrlData) {
+            return res.status(200).send({ status: true, message: "url alrady shorted", data: JSON.parse(cahcedLongUrlData) })
+        } else {
+            let url = await urlModel.findOne({ longUrl })
+            if (url) {
+                await SET_ASYNC(`${longUrl}`, JSON.stringify(url))
+                return res.status(200).send({ status: true, message: "alrady shorted ", data: url })
+            }
+        }
         // GENERATE URLCODE------
         const urlCode = shortid.generate()
 
@@ -54,32 +65,14 @@ const shortUrl = async function (req, res) {
         // const urlCode = "428d08"
         //console.log(urlCode)
 
-        // FIND DOCUMENT CONTAINING SAME URLCODE PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE-----
-        let cahcedUrlCodeData = await GET_ASYNC(`${urlCode}`)
-        if (cahcedUrlCodeData) {
-            return res.status(400).send({ status: false, message: "UrlCode alrady present in CACHE" })
-        } else {
-            const findUrlCode = await urlModel.findOne({ urlCode: urlCode })
-            //console.log(findUrlCode)
-            await SET_ASYNC(`${urlCode}`, JSON.stringify(findUrlCode))
-            if (findUrlCode) {
-                console.log(findUrlCode)
-                return res.status(400).send({ status: false, message: "UrlCode alrady present in db" })
-            }
+        // FIND DOCUMENT HAVING SAME URLCODE PRESENT OR NOT IN DB-----
+        const findUrlCode = await urlModel.findOne({ urlCode: urlCode })
+        //console.log(findUrlCode)
+        if (findUrlCode) {
+            console.log(findUrlCode)
+            return res.status(400).send({ status: false, message: "UrlCode alrady present in db" })
         }
 
-        // FIND LONG URL ALRADY PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE----
-        let cahcedLongUrlData = await GET_ASYNC(`${longUrl}`)
-        // 
-        if (cahcedLongUrlData) {
-            return res.status(200).send({ status: true, message:"url alrady shorted",data:JSON.parse(cahcedLongUrlData) })
-        } else {
-            let url = await urlModel.findOne({ longUrl })
-            if (url) {
-                await SET_ASYNC(`${longUrl}`, JSON.stringify(url))
-                return res.status(200).send({ status: true, message:"alrady shorted " , data: url })
-            }
-        }
 
         // CREATE SHORT URL----
         const shortUrl = baseUrl + '/' + urlCode
@@ -88,16 +81,11 @@ const shortUrl = async function (req, res) {
         // const shortUrl ="http:localhost:3000/bd1ba0"
         //console.log(shortUrl)
 
-        // FIND DOCUMENT HAVING SAME SHORTURL PRESENT OR NOT IN DB OR IN CASH IF IT IS IN DB SET INTO CACHE-----
-        let cahcedShortUrlData = await GET_ASYNC(`${shortUrl}`)
-        if (cahcedShortUrlData) {
-            return res.status(400).send({ status: false, message: "Short-Url alrady present in CACHE" })
-        } else {
-            const findShortUrl = await urlModel.findOne({ shortUrl: shortUrl })
-            await SET_ASYNC(`${shortUrl}`, JSON.stringify(findShortUrl))
-            if (findShortUrl) {
-                return res.status(400).send({ status: false, message: "Short-Url alrady present in db" })
-            }
+
+        // FIND DOCUMENT HAVING SAME SHORTURL PRESENT OR NOT IN DB-----
+        const findShortUrl = await urlModel.findOne({ shortUrl: shortUrl })
+        if (findShortUrl) {
+            return res.status(400).send({ status: false, message: "Short-Url alrady present in db" })
         }
 
         // MAKE OBJECT CONTAINING ALL MANDATORY FIELDS-----
@@ -110,8 +98,8 @@ const shortUrl = async function (req, res) {
         let createdata = await urlModel.create(createUrl)
         res.status(201).send({ status: true, data: createdata })
         let cache = await SET_ASYNC(`${urlCode}`, JSON.stringify(createdata))
-        console.log(cache," data set in cache")
-        
+        console.log(cache, " data set in cache")
+
     }
     catch (err) {
         return res.status(500).send({ status: false, Error: err.message })
@@ -127,11 +115,11 @@ const redirectUrl = async function (req, res) {
         // FINDING IN CACHE MOMORY----
         let cahcedProfileData = await GET_ASYNC(`${req.params.urlCode}`)
         cahcedProfileData = JSON.parse(cahcedProfileData)
-        console.log(cahcedProfileData," data from cache")
+        console.log(cahcedProfileData, " data from cache")
         if (cahcedProfileData) {
             //FOR STATUS CODE 32 PLEASE DISABLE (Automatically follow redirects) IN POSTMAN SETTING BELOW HTTP REQUEST-----
             res.status(302).redirect(cahcedProfileData.longUrl)
-        } 
+        }
         // IF DOCUMENT NOT FOUND IN CACHE THEN FIND IN DB AND SET INTO CACHE MEMORY----
         else {
             let longUrl = await urlModel.findOne({ urlCode: urlCode });
