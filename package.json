@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/KANISHKMAKKAR/PROJECT-3#readme",
   "dependencies": {
+    "aws-sdk": "^2.1140.0",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",
     "email-validator": "^2.0.4",
@@ -26,6 +27,7 @@
     "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.3",
     "mongoose": "^6.3.2",
+    "multer": "^1.4.4",
     "nodemon": "^2.0.16"
   }
 }

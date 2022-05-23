@@ -1,3 +1,4 @@
+const aws = require("aws-sdk")
 const bookModel = require("../models/BookModel")
 const UserModel = require("../models/UserModel")
 const reviewModel = require('../models/ReviewModel')
@@ -8,10 +9,53 @@ const moment = require('moment')
 const ReviewModel = require("../models/ReviewModel")
 let dateregex = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
 
+aws.config.update({
+    accessKeyId: "AKIAY3L35MCRUJ6WPO6J",
+    secretAccessKey: "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",
+    region: "ap-south-1"
+})
+// UPLOAD FILE IN AWS S3---
+let uploadFile = async (file) => {
+    return new Promise(function (resolve, reject) {
+        // this function will upload file to aws and return the link
+        let s3 = new aws.S3({ apiVersion: '2006-03-01' }); // we will be using the s3 service of aws
+
+        let uploadParams = {
+            ACL: "public-read",
+            Bucket: "classroom-training-bucket",
+            Key: "bookcover/" + file.originalname, //HERE 
+            Body: file.buffer
+        }
+
+        s3.upload(uploadParams, function (err, data) {
+            if (err) {
+                return reject({ "error": err })
+            }
+            console.log(data)
+            console.log("file uploaded succesfully")
+            return resolve(data.Location)
+        })
+
+    })
+}
+
 const createBook = async function (req, res) {
     try {
         // FETCH DATA FROM RE.BODY----
         const data = req.body
+
+        // FETCH FILE FROM REQ.----
+        // VALIDATION FOR UPLODED BOOKCOVER FILE----
+
+        let files = req.files
+        if (!files) {
+            //upload to s3 and get the uploaded link
+            // res.send the link back to frontend/postman
+            res.status(400).send({ msg: "No file found" })
+
+            //res.status(201).send({msg: "file uploaded succesfully", data: uploadedFileURL})
+        }
+        let uploadedCover = await uploadFile(files[0])
 
         // DESTRUCTURING DATA-----
         let { title, excerpt, userId, ISBN, category, subcategory, releasedAt } = data
@@ -72,6 +116,7 @@ const createBook = async function (req, res) {
         }
         // IF SUB CATEGORY IS IN ARRAY -----
         if (typeof (subcategory) == "object") {
+            subcategory = subcategory.split(",").trim()
             for (let i = 0; i < subcategory.length; i++) {
                 if (!validator.isValid(subcategory[i]))
                     return res.status(400).send({ status: false, message: "SUB-CATEGORY IS NOT VALID" })
@@ -99,8 +144,23 @@ const createBook = async function (req, res) {
         if (!userid) {
             return res.status(404).send({ status: false, message: "USER NOT FOUND" })
         }
-        const result = await bookModel.create(data)
-        let result1=await bookModel.findOne({title:title}).select({title:1, excerpt:1, userId:1, ISBN:1, category:1, subcategory:1, releasedAt:1})
+        // FETCH AWS S3 CREATED LINK FOR BOOK COVER----
+
+
+        // CREATE OBJECT TO INCLUED AWS FILE LINK IN REQ.BODY---
+        const newData = {
+            title: title,
+            excerpt: excerpt,
+            userId: userId,
+            ISBN: ISBN,
+            category: category,
+            subcategory: subcategory,
+            releasedAt: releasedAt,
+            bookcover: uploadedCover
+        }
+
+        const result = await bookModel.create(newData)
+        let result1 = await bookModel.findOne({ title: title }).select({ title: 1, excerpt: 1, userId: 1, ISBN: 1, category: 1, subcategory: 1, releasedAt: 1, bookcover: 1 })
         res.status(201).send({ status: true, message: "Success", data: result1 })
 
     } catch (err) {
@@ -113,8 +173,8 @@ const getBooks = async function (req, res) {
         const { userId, category, subcategory } = req.query
         // CHECK DATA PRESENT OR NOT IN REQ.BODY----
         if (Object.keys(req.query).length == 0) {
-            let find = await bookModel.find({ isDeleted: false }).sort({title:1})
-             res.status(200).send({ status: true, message: "BooksList", data: find })
+            let find = await bookModel.find({ isDeleted: false }).sort({ title: 1 })
+            res.status(200).send({ status: true, message: "BooksList", data: find })
 
         }
         // CHECK USER ID VALIDATION------
@@ -147,7 +207,7 @@ const getBooks = async function (req, res) {
                 obj2[key] = { $all: obj2[key] }
             }
             //FIND BOOK WITH THE HELP OF GIVEN FILTERS------
-            const data = await bookModel.find({ ...obj2, ...obj }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({title:1})
+            const data = await bookModel.find({ ...obj2, ...obj }).select({ _id: 1, title: 1, excerpt: 1, userId: 1, category: 1, releasedAt: 1, reviews: 1 }).sort({ title: 1 })
 
             // IF  NO BOOK FOUND WITH GIVEN FILTERS-----
             if (data.length == 0) {
@@ -167,7 +227,7 @@ const getBooksById = async function (req, res) {
     try {
         // FETCH BOOK ID FROM PARAMS----
         let bookId = req.params.bookId.trim()
-        
+
         //IF BOOK ID IS NOT INPUT----
         if (!bookId) {
             return res.status(400).send({ status: false, message: " BOOK ID REQUIRED" })
@@ -175,12 +235,12 @@ const getBooksById = async function (req, res) {
 
         // BOOK ID VALIDATION-----
         let isValid = mongoose.Types.ObjectId.isValid(bookId);
-        if (!isValid) { 
+        if (!isValid) {
             return res.status(400).send({ status: false, message: "Id is Not Valid" })
-         }
+        }
 
         // FIND BOOKS BY BOOK ID-----
-        const result = await bookModel.findOne({ _id: bookId,isDeleted:false })
+        const result = await bookModel.findOne({ _id: bookId, isDeleted: false })
 
         //IF BOOK NOT FOUND-----
         if (!result) {
@@ -227,11 +287,11 @@ const updateBook = async function (req, res) {
                     return res.status(400).send({ status: false, message: "ISBN IS ALREADY PRESENT" })
                 }
                 // VALIDATION FOR DATE----
-                if(releasedAt){
-                if (!releasedAt.match(dateregex)) {
-                    return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
+                if (releasedAt) {
+                    if (!releasedAt.match(dateregex)) {
+                        return res.status(400).send({ status: false, message: "INVALID DATE OR KINDLY ADD DATE IN YYYY-MM-DD FORMAT" })
+                    }
                 }
-            }
 
                 // UPDATE GIVEN DATA PRESENT IN BODY-----
                 if (title || excerpt || ISBN || releasedAt) {
@@ -246,12 +306,12 @@ const updateBook = async function (req, res) {
                         { new: true }
                     );
                     // UPDATE SUCCESSFULL----
-                     res.status(200).send({ status: true,message:"Success", data: check });
+                    res.status(200).send({ status: true, message: "Success", data: check });
                 }
                 else
-                   res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
+                    res.status(400).send({ status: false, message: "CANT UPDATE THESE DETAILS" })
             } else {
-                 res.status(404).send({ status: false, msg: "CANT UPDATE , NOT FOUND" });
+                res.status(404).send({ status: false, msg: "CANT UPDATE , NOT FOUND" });
             }
         } else {
             res.status(404).send({ status: false, message: "NO BOOK FOUND" });
@@ -284,8 +344,8 @@ const deleteBook = async function (req, res) {
 
         // DELETE BOOK SUCCESSFULLY-----
         let updateBook = await bookModel.findByIdAndUpdate(bookId, { isDeleted: true, deletedAt: Date.now() }, { new: true })
-        
-        res.status(200).send({ status: true,message:"Success", data: updateBook })
+
+        res.status(200).send({ status: true, message: "Success", data: updateBook })
 
     } catch (err) {
         res.status(500).send({ status: false, message: err.message })
