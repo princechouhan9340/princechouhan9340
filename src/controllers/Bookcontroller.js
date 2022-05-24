@@ -115,8 +115,9 @@ const createBook = async function (req, res) {
             return res.status(400).send({ status: false, message: "CATEGORY IS NOT VALID" })
         }
         // IF SUB CATEGORY IS IN ARRAY -----
-        if (typeof (subcategory) == "object") {
-            subcategory = subcategory.split(",").trim()
+        if (typeof (subcategory) == "string") {
+            subcategory = subcategory.split(",").map((x) => x.trim())
+            console.log(subcategory)
             for (let i = 0; i < subcategory.length; i++) {
                 if (!validator.isValid(subcategory[i]))
                     return res.status(400).send({ status: false, message: "SUB-CATEGORY IS NOT VALID" })
@@ -125,9 +126,9 @@ const createBook = async function (req, res) {
                 return res.status(400).send({ status: false, message: "SUB-CATEGORY IS NOT VALID" })
 
         }
-        if (!validator.isValid(subcategory)) {
-            return res.status(400).send({ status: false, message: "SUB-CATEGORY IS NOT VALID" })
-        }
+        // if (!validator.isValid(subcategory)) {
+        //     return res.status(400).send({ status: false, message: "SUB-CATEGORY IS NOT VALID" })
+        // }
         //CHECK UNIQUENESS------
 
         const isValidTitle = await bookModel.findOne({ title: title })
