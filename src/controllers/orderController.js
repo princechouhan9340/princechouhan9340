@@ -17,7 +17,7 @@ const isValidObjectId = function (objectId) {
 //VALIDATION FOR STRING------
 const isValidInputValue = function (value) {
     if (typeof (value) === 'undefined' || value === null) return false
-    if (typeof (value) === 'string' && value.trim().length > 0) return true
+    if (typeof (value) === 'string' && value.trim().length > 0) return false
     return false
 }
 
@@ -72,7 +72,7 @@ const createOrder = async function (req, res) {
 
         //total product quantity in cart
         // const totalQuantity = userCartDetail.items.reduce((a, b) => a.quantity + b.quantity);
-
+// let item = [ {a:2},{a:4}] == {a:6}
         /*****prince bro if above doesn't work try below code some syntex difference*********/
 
         const totalQuantity = userCartDetail.items.reduce(
@@ -82,13 +82,13 @@ const createOrder = async function (req, res) {
         // All products are available or not
         const allProductsInCart = userCartDetail.items;
 
-        for (let i = 0; i < allProductsInCart.length; i++) {
-            const isProductInStock = await ProductModel.findById(allProductsInCart[i].productId);
-            if (isProductInStock.installments < allProductsInCart[i].quantity) {
-                //console.log(isProductInStock.installments, "kjhjkgkjgkjgkjgbkj", allProductsInCart[i].quantity)
-                return res.status(400).send({ status: false, message: `${allProductsInCart[i].productId} is out of stock`, });
-            }
-        }
+        // for (let i = 0; i < allProductsInCart.length; i++) {
+        //     const isProductInStock = await ProductModel.findById(allProductsInCart[i].productId);
+        //     if (isProductInStock.installments < allProductsInCart[i].quantity) {
+        //         //console.log(isProductInStock.installments, "kjhjkgkjgkjgkjgbkj", allProductsInCart[i].quantity)
+        //         return res.status(400).send({ status: false, message: `${allProductsInCart[i].productId} is out of stock`, });
+        //     }
+        // }
 
         if (requestBody.hasOwnProperty("cancellable")) {
             if (typeof cancellable !== "boolean") { return res.status(400).send({ status: false, message: "cancellable should be a boolean" }); }
