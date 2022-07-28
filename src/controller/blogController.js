@@ -168,10 +168,10 @@ const deleteBlogs = async (req, res) => {
         let somethingBad = false;
         console.log(req.query)
         // checking any unwanted key coming or not
-        for (let i = 0; i < keyArr.length; i++) {
-            if (!(keyArr[i] == "category" || keyArr[i] == "tags" || keyArr[i] == "subcategory" || keyArr[i] == "isPublished" || keyArr[i] == "authorId"))
-                somethingBad = true;
-        }
+//         for (let i = 0; i < keyArr.length; i++) {
+//             if (!(keyArr[i] == "category" || keyArr[i] == "tags" || keyArr[i] == "subcategory" || keyArr[i] == "isPublished" || keyArr[i] == "authorId"))
+//                 somethingBad = true;
+//         }
         // if we got any unwanted key or empty body
         if (somethingBad || keyArr.length == 0) {
             return res.status(400).send({ status: false, msg: "invalid input" })
