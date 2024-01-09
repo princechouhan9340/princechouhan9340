@@ -1,132 +1,32 @@
-# functionup_projects
-# Uranium
 
-Repository for backend cohort - Uranium
+[![MasterHead](https://media.licdn.com/dms/image/D563DAQFIJGy_J4EvYA/image-scale_191_1128/0/1666883668428?e=1675425600&v=beta&t=q5S0E-n5z-gDvzZPdOvK7oorksu-JESWk3DdbbvU2ss)](https://codegrills.in)
+<h1 align="center">Hi 👋, I'm Prince Chouhan</h1>
+<h3 align="center">An Associate Software Engineer</h3>
+<img align="right" alt="Coding" width="400" src="https://media.tenor.com/rePDfDWO3XoAAAAd/hacking.gif">
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=princechouhan9340&label=Profile%20views&color=0e75b6&style=flat" alt="princechouhan9340" /> </p>
 
-## Blogging Site Mini Project Requirement
+- 💬 Ask me about **Javascript, Nodejs, Mongodb, Redis, Express, React, Socket.io, AwsS3, JWT.**
 
-## Phase I
+- 📫 How to reach me **pc75805@gmail.com**
 
-### Models
-- Author Model
-```
-{ fname: { mandatory}, lname: {mandatory}, title: {mandatory, enum[Mr, Mrs, Miss]}, email: {mandatory, valid email, unique}, password: {mandatory} }
-```
-- Blogs Model
-```
-{ title: {mandatory}, body: {mandatory}, authorId: {mandatory, refs to author model}, tags: {array of string}, category: {string, mandatory, examples: [technology, entertainment, life style, food, fashion]}, subcategory: {array of string, examples[technology-[web development, mobile development, AI, ML etc]] }, createdAt, updatedAt, deletedAt: {when the document is deleted}, isDeleted: {boolean, default: false}, publishedAt: {when the blog is published}, isPublished: {boolean, default: false}}
-```
+- 📄 Know about my experiences [https://docs.google.com/document/d/1D-lGKBM4pwuRTRATuWcInwhytHNGTi4ERkbQIUCdcao/edit](https://docs.google.com/document/d/1D-lGKBM4pwuRTRATuWcInwhytHNGTi4ERkbQIUCdcao/edit)
 
-### Author APIs /authors
-- Create an author - atleast 5 authors
-- Create a author document from request body.
-  `Endpoint: BASE_URL/authors`
+<h3 align="left">Connect with me:</h3>
+<p align="left">
+<a href="https://linkedin.com/in/https://www.linkedin.com/in/prince-chouhan-94a943188/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/linked-in-alt.svg" alt="https://www.linkedin.com/in/prince-chouhan-94a943188/" height="30" width="40" /></a>
+<a href="https://instagram.com/https://www.instagram.com/prince_raj_0001?igsh=mwk0a3flohv0a3zpzg==" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/instagram.svg" alt="https://www.instagram.com/prince_raj_0001?igsh=mwk0a3flohv0a3zpzg==" height="30" width="40" /></a>
+<a href="https://www.leetcode.com/https://leetcode.com/prince0001/" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/leet-code.svg" alt="https://leetcode.com/prince0001/" height="30" width="40" /></a>
+</p>
 
-### POST /blogs
-- Create a blog document from request body. Get authorId in request body only.
-- Make sure the authorId is a valid authorId by checking the author exist in the authors collection.
-- Return HTTP status 201 on a succesful blog creation. Also return the blog document. The response should be a JSON object like [this](#successful-response-structure) 
-- Create atleast 5 blogs for each author
+<h3 align="left">Languages and Tools:</h3>
+<p align="left"> <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a> <a href="https://www.elastic.co" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/elastic/elastic-icon.svg" alt="elasticsearch" width="40" height="40"/> </a> <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a> <a href="https://www.w3.org/html/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="html5" width="40" height="40"/> </a> <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/> </a> <a href="https://www.linux.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="linux" width="40" height="40"/> </a> <a href="https://www.mongodb.com/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mongodb/mongodb-original-wordmark.svg" alt="mongodb" width="40" height="40"/> </a> <a href="https://nodejs.org" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original-wordmark.svg" alt="nodejs" width="40" height="40"/> </a> <a href="https://postman.com" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/getpostman/getpostman-icon.svg" alt="postman" width="40" height="40"/> </a> <a href="https://reactjs.org/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original-wordmark.svg" alt="react" width="40" height="40"/> </a> <a href="https://redis.io" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original-wordmark.svg" alt="redis" width="40" height="40"/> </a> </p>
 
-- Return HTTP status 400 for an invalid request with a response body like [this](#error-response-structure)
-
-### GET /blogs
-- Returns all blogs in the collection that aren't deleted and are published
-- Return the HTTP status 200 if any documents are found. The response structure should be like [this](#successful-response-structure) 
-- If no documents are found then return an HTTP status 404 with a response like [this](#error-response-structure) 
-- Filter blogs list by applying filters. Query param can have any combination of below filters.
-  - By author Id
-  - By category
-  - List of blogs that have a specific tag
-  - List of blogs that have a specific subcategory
-example of a query url: blogs?filtername=filtervalue&f2=fv2
-
-### PUT /blogs/:blogId
-- Updates a blog by changing the its title, body, adding tags, adding a subcategory. (Assuming tag and subcategory received in body is need to be added)
-- Updates a blog by changing its publish status i.e. adds publishedAt date and set published to true
-- Check if the blogId exists (must have isDeleted false). If it doesn't, return an HTTP status 404 with a response body like [this](#error-response-structure)
-- Return an HTTP status 200 if updated successfully with a body like [this](#successful-response-structure) 
-- Also make sure in the response you return the updated blog document. 
-
-### DELETE /blogs/:blogId
-- Check if the blogId exists( and is not deleted). If it does, mark it deleted and return an HTTP status 200 without any response body.
-- If the blog document doesn't exist then return an HTTP status of 404 with a body like [this](#error-response-structure) 
-
-### DELETE /blogs?queryParams
-- Delete blog documents by category, authorid, tag name, subcategory name, unpublished
-- If the blog document doesn't exist then return an HTTP status of 404 with a body like [this](#error-response-structure)
-
-## Phase II
-
-- Add authentication and authroisation feature
-
-### POST /login
-- Allow an author to login with their email and password. On a successful login attempt return a JWT token contatining the authorId
-- If the credentials are incorrect return a suitable error message with a valid HTTP status code
-
-### Authentication
-- Add an authorisation implementation for the JWT token that validates the token before every protected endpoint is called. If the validation fails, return a suitable error message with a corresponding HTTP status code
-- Protected routes are create a blog, edit a blog, get the list of blogs, delete a blog(s)
-- Set the token, once validated, in the request - `x-api-key`
-- Use a middleware for authentication purpose.
-
-### Authorisation
-- Make sure that only the owner of the blogs is able to edit or delete the blog.
-- In case of unauthorized access return an appropirate error message.
-
-## Testing (Self-evaluation During Development)
-- To test these apis create a new collection in Postman named Project 1 Blogging 
-- Each api should have a new request in this collection
-- Each request in the collection should be rightly named. Eg Create author, Create blog, Get blogs etc
-- Each member of each team should have their tests in running state
+<h3 align="left">Support:</h3>
+<p><a href="https://www.buymeacoffee.com/prince"> <img align="left" src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" height="50" width="210" alt="prince" /></a></p><br><br>
 
 
-Refer below sample
+<p><img align="left" src="https://github-readme-stats.vercel.app/api/top-langs?username=princechouhan9340&show_icons=true&locale=en&layout=compact" alt="princechouhan9340" /></p>
 
- ![A Postman collection and request sample](assets/Postman-collection-sample.png)
+<p>&nbsp;<img align="center" src="https://github-readme-stats.vercel.app/api?username=princechouhan9340&show_icons=true&locale=en" alt="princechouhan9340" /></p>
 
-## Response
-
-
-### Successful Response structure
-```yaml
-{
-  status: true,
-  data: {
-
-  }
-}
-```
-### Error Response structure
-```yaml
-{
-  status: false,
-  msg: ""
-}
-```
-
-
-
-
-
-## Collections
-### Blogs
-```yaml
-{
-  "title": "How to win friends",
-  "body": "Blog body",
-  "tags": ["Book", "Friends", "Self help"],
-  "category": "Book",
-  "subcategory": ["Non fiction", "Self Help"],
-  "published": false,
-  "publishedAt": "", // if published is true publishedAt will have a date 2021-09-17T04:25:07.803Z
-  "deleted": false,
-  "deletedAt": "", // if deleted is true deletedAt will have a date 2021-09-17T04:25:07.803Z,
-  "createdAt": "2021-09-17T04:25:07.803Z",
-  "updatedAt": "2021-09-17T04:25:07.803Z",
-}
-```
-
-#### Refer https://jsonplaceholder.typicode.com/guide/ for some fake blogs data.
-
-#### Note: Create a group database and use the same database in connection string by replacing `groupXDatabase
+<p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=princechouhan9340&" alt="princechouhan9340" /></p>
