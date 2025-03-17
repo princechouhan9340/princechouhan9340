@@ -65,7 +65,7 @@ Check out my professional journey and projects through my [Resume](https://drive
 ### 📊 GitHub Stats:
 
 <p align="center">
-  <img height="150" src="https://github-readme-stats.vercel.app/api?username=princechouhan9340&show_icons=true&locale=en" />
+  <img height="150" src="https://github-readme-stats.vercel.app/api?username=princechouhan9340&count_private=true&show_icons=true" />
   <img height="150" src="https://github-readme-streak-stats.herokuapp.com/?user=princechouhan9340" />
 </p>
 
