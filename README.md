@@ -38,31 +38,6 @@ I thrive in dynamic environments where I can leverage technology to create impac
 
 ---
 
-### 🎯 Key Projects & Achievements:
-
-**1. Collegedunia, Gurgaon, Haryana**  
-*Software Engineer | Dec 2024 - Present*
-
-- Developed the **Radian Dashboard** from scratch, incorporating role-based permissions, real-time inventory tracking, and dynamic campaign management. This eliminated third-party tools, saving **$4k/month**, and contributed to **8% client growth** with 100% retention.
-- Spearheaded the design of a **web scraping system** for **Onemenus**, successfully extracting data from **2.5+ lakh restaurants**, **1 crore reviews**, and **3 crore images**.
-- Developed and maintained the core **backend infrastructure** for Onemenus, enabling users to discover restaurants based on ratings, cuisine types, and geolocation.
-
-**2. Oriserve, Noida, UP**  
-*Associate Software Engineer | Sept 2022 - Dec 2024*
-
-- Led the development of a **Vodafone Idea chatbot**, managing over **100K daily interactions** across multiple platforms, enhancing customer engagement by **20%**.
-- Designed and implemented an **AI-powered Indigo chatbot** supporting **20K+ crew members**, integrating real-time tracking and live chat features.
-- Optimized **data aggregation pipelines**, reducing KPI query time from **20 seconds to 0.10 seconds**, improving reporting efficiency.
-- Introduced automated testing for intents/FAQs, reducing testing time from **4 hours** to **15 minutes** and handling **2000 utterances** at once.
-- Implemented **real-time blocking with Redis** to prevent phishing attacks, achieving a **94% success rate**.
-
-**3. Function Up**  
-*Node.js Development Trainee | Mar 2022 - Aug 2022*
-
-- Completed rigorous training in **backend development** using **Node.js**, **Express**, **Redis**, **MongoDB**, and **Git/GitHub**.
-- Managed task assignments and mentorship for over **50 individuals**, successfully leading concurrent training modules.
-
----
 
 ### 🏆 Achievements:
 
