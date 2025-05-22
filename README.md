@@ -58,7 +58,7 @@ I thrive in dynamic environments where I can leverage technology to create impac
 
 ### 📄 Resume:
 
-Check out my professional journey and projects through my [Resume](https://drive.google.com/file/d/1kPXiTffBcOeE_tu-2eqyYlpCywn1i1Ql/view?usp=sharing).
+Check out my professional journey and projects through my [Resume](https://drive.google.com/file/d/1iIkH0UgZZB5RoCEZ-f_rZdx0iIGCuSMI/view?usp=sharing).
 
 ---
 
