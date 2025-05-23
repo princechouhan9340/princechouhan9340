@@ -117,7 +117,3 @@
 
 ---
 
-<div align="center">
-  <h3>⚡ Fun Fact:</h3>
-  <img src="https://readme-jokes.vercel.app/api?theme=dark" alt="Jokes Card"/>
-</div>
