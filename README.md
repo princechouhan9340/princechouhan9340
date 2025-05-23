@@ -1,90 +1,100 @@
+<h1 align="center">🚀 Hi, I'm Prince Chouhan 👋</h1>
+<h3 align="center">💻 Software Engineer | 🔧 Backend Developer | 🤖 AI Enthusiast</h3>
 
 
-<h1 align="center">Hi, I'm Prince Chouhan 👋</h1>
-<h3 align="center">Software Engineer | Backend Developer | AI Enthusiast</h3>
 
-<div align="center">
-  <img src="https://media.tenor.com/rePDfDWO3XoAAAAd/hacking.gif" width="400" />
-</div>
-
-<p align="left">
-  <img src="https://komarev.com/ghpvc/?username=princechouhan9340&label=Profile%20views&color=0e75b6&style=flat" alt="princechouhan9340" />
+<p align="center">
+  <img src="https://komarev.com/ghpvc/?username=princechouhan9340&color=00ff00&style=flat-square" alt="Profile views"/>
+  <img src="https://img.shields.io/badge/dynamic/json?label=Last%20Updated&query=%24.last_updated&url=https%3A%2F%2Fapi.github.com%2Frepos%2Fprincechouhan9340%2Fprincechouhan9340%2Fcommits%3Fper_page%3D1&color=00ff00&style=flat-square" alt="Last Updated">
 </p>
 
----
-
-### 💡 About Me:
-Innovative and detail-oriented Software Engineer with a strong foundation in backend development, automation, and system design. I’m passionate about building scalable, high-performance applications that enhance both efficiency and user experience.
-
-Proficient in **Node.js**, **Express.js**, **Python**, **MongoDB**, **Redis**, and **AWS**. I specialize in API development, real-time data processing, web scraping, and AI-driven automation. My expertise lies in optimizing system performance, improving security, and creating robust architectures for seamless integration and scalability.
-
-I thrive in dynamic environments where I can leverage technology to create impactful solutions. Always eager to learn, innovate, and collaborate on challenging projects pushing boundaries in backend engineering and AI-driven systems.
+<!-- Animated Divider -->
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=25&duration=3000&pause=1000&color=00FF00&center=true&vCenter=true&width=435&lines=Full-Stack+Developer;Backend+Specialist;Automation+Expert;System+Architect;Problem+Solver" alt="Typing SVG" />
+</div>
 
 ---
 
-### 💻 Skills & Technologies:
+### 🔥 About Me:
+🎯 **Mission:** Building scalable solutions that bridge technology and business needs  
+💡 **Passion:** Creating AI-driven automation systems & optimizing backend architectures  
+🚀 **Currently:** Developing high-performance APIs with Node.js & Python  
+🌱 **Learning:** Advanced cloud architecture & generative AI applications  
 
-- **Languages & Databases:**  
-  HTML, CSS, JavaScript, Python, NoSQL (MongoDB), Redis, MySQL
-
-- **Libraries & Frameworks:**  
-  Node.js, Express.js, Socket.io, JWT, React.js, Selenium, Playwright, BullMQ, Celery, AutoGen
-
-- **Tools & Platforms:**  
-  AWS, Git, GitHub, Jenkins, Postman, ElasticLog, Visual Studio Code, NoSQL Booster, Grafana
-
-- **Miscellaneous:**  
-  Data Structures and Algorithms, Linux OS, Analytical Skills, Generative AI
+<div align="center">
+  <a href="https://drive.google.com/file/d/1iIkH0UgZZB5RoCEZ-f_rZdx0iIGCuSMI/view?usp=sharing">
+    <img src="https://img.shields.io/badge/View-My_Resume-00FF00?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=black" width="200" alt="Resume"/>
+  </a>
+</div>
 
 ---
 
+### 🛠️ Tech Stack:
+
+#### **Core Technologies**
+![Node.js](https://img.shields.io/badge/-Node.js-339933?logo=node.js&logoColor=white)
+![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)
+![MongoDB](https://img.shields.io/badge/-MongoDB-47A248?logo=mongodb&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-FF9900?logo=amazon-aws&logoColor=white)
+![Redis](https://img.shields.io/badge/-Redis-DC382D?logo=redis&logoColor=white)
+
+#### **Frameworks & Tools**
+![Express.js](https://img.shields.io/badge/-Express.js-000000?logo=express&logoColor=white)
+![React](https://img.shields.io/badge/-React-61DAFB?logo=react&logoColor=black)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?logo=docker&logoColor=white)
+![Git](https://img.shields.io/badge/-Git-F05032?logo=git&logoColor=white)
+
+#### **Specializations**
+![Web Scraping](https://img.shields.io/badge/-Web%20Scraping-FF6C37)
+![Real-time Systems](https://img.shields.io/badge/-Real--time-00C7B7)
+![Microservices](https://img.shields.io/badge/-Microservices-FF6C37)
+![AI Automation](https://img.shields.io/badge/-AI%20Automation-00C7B7)
+
+---
 
 ### 🏆 Achievements:
 
-- Recognized with the **Quarterly Stellar Customer Service Award** for exceptional service delivery.
-- Awarded **Employee of the Month** for outstanding performance and contributions.
-- Led a team of **5 members**, successfully executing high-impact projects.
-- Solved **300+ DSA questions** on platforms like **CodeZinger**, **HackerRank**, and **LeetCode**.
+<!-- Trophies -->
+<div align="center">
+  <img src="https://github-profile-trophy.vercel.app/?username=princechouhan9340&theme=matrix&row=2&column=4" alt="Trophies"/>
+</div>
+
+- 🏅 **Quarterly Stellar Customer Service Award** - Top 1% Performance
+- 🥇 **Employee of the Month** - 3x Recipient
+- 🚀 **Team Leadership** - Directed 5-member team for enterprise projects
+- 🧠 **DSA Master** - 300+ problems solved across platforms
 
 ---
 
-### 📫 How to Reach Me:
+### 📈 GitHub Analytics:
 
-- [LinkedIn](https://www.linkedin.com/in/prince-chouhan-94a943188/)
-- [Instagram](https://www.instagram.com/prince_raj_0001?igsh=mwk0a3flohv0a3zpzg==)
-- [Leetcode](https://leetcode.com/prince0001/)
+<!-- Activity Graph -->
+[![Prince's GitHub Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=princechouhan9340&theme=react-dark&hide_border=true&area=true)](https://github.com/ashutosh00710/github-readme-activity-graph)
 
----
-
-### 📄 Resume:
-
-Check out my professional journey and projects through my [Resume](https://drive.google.com/file/d/1iIkH0UgZZB5RoCEZ-f_rZdx0iIGCuSMI/view?usp=sharing).
+<div align="center">
+  <img height="150" src="https://github-readme-stats.vercel.app/api?username=princechouhan9340&count_private=true&show_icons=true&theme=vision-friendly-dark"/>
+  <img height="150" src="https://github-readme-streak-stats.herokuapp.com/?user=princechouhan9340&theme=vision-friendly-dark"/>
+</div>
 
 ---
 
-### 📊 GitHub Stats:
+### 📬 Let's Connect:
 
-<p align="center">
-  <img height="150" src="https://github-readme-stats.vercel.app/api?username=princechouhan9340&count_private=true&show_icons=true" />
-  <img height="150" src="https://github-readme-streak-stats.herokuapp.com/?user=princechouhan9340" />
-</p>
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs?username=princechouhan9340&show_icons=true&locale=en&layout=compact" alt="princechouhan9340" />
-</p>
-
----
-
-### 💳 Support My Work:
-
-If you enjoy my work and want to show your support, you can [buy me a coffee ☕](https://www.buymeacoffee.com/prince)!
+<div align="center">
+  <a href="https://www.linkedin.com/in/prince-chouhan-94a943188/">
+    <img src="https://img.shields.io/badge/LinkedIn-0077B5?logo=linkedin&logoColor=white&style=for-the-badge"/>
+  </a>
+  <a href="https://leetcode.com/prince0001/">
+    <img src="https://img.shields.io/badge/-LeetCode-FFA116?logo=leetcode&logoColor=black&style=for-the-badge"/>
+  </a>
+  <a href="mailto:princechouhan9340@gmail.com">
+    <img src="https://img.shields.io/badge/Gmail-D14836?logo=gmail&logoColor=white&style=for-the-badge"/>
+  </a>
+</div>
 
 ---
 
-### 💬 Let’s Collaborate!
-
-I'm always open to discussing exciting projects, solving technical challenges, or exploring new technologies. Feel free to reach out if you want to collaborate!
-
----
-
-This README effectively highlights your technical skills, detailed work experience, and achievements, making it a great interactive and informative introduction for anyone visiting your GitHub profile.
+<div align="center">
+  <h3>⚡ Fun Fact:</h3>
+  <img src="https://readme-jokes.vercel.app/api?theme=dark" alt="Jokes Card"/>
+</div>
