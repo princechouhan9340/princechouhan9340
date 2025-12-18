@@ -22,7 +22,7 @@
 🌱 **Learning:** Advanced cloud architecture & generative AI applications  
 
 <div align="center">
-  <a href="https://drive.google.com/file/d/1iIkH0UgZZB5RoCEZ-f_rZdx0iIGCuSMI/view?usp=sharing">
+  <a href="https://drive.google.com/file/d/1JD3gncBk3-1HWRUCPn1XA2UdVB4EGZ-Z/view?usp=sharing">
     <img src="https://img.shields.io/badge/View-My_Resume-00FF00?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=black" width="200" alt="Resume"/>
   </a>
 </div>
